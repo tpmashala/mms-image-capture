@@ -1,0 +1,34 @@
+<div class="video-container" style="margin-left: 15px;">
+    <video
+      #video
+      id="video"
+      [width]="WIDTH"
+      [height]="HEIGHT"
+      autoplay
+    ></video>
+    
+    <canvas
+      hidden
+      [class.show]="isCaptured"
+      [class.hide]="!isCaptured"
+      #canvas
+      id="canvas"
+      [width]="WIDTH"
+      [height]="HEIGHT"
+    ></canvas>
+    <p *ngIf="isCaptured">Date image captured: {{dateCaptured}}</p>
+
+    <div class="snap-container">
+      <button class="btn btn-primary" *ngIf="!isCaptured" (click)="capture()">
+        Snap Photo
+      </button>
+      <button class="btn btn-success" *ngIf="isCaptured" (click)="saveImage()">
+        Save
+      </button>
+      <button class="btn btn-danger" style="margin-left: 150px;" *ngIf="isCaptured" (click)="reCaptureImage()">
+        ReCapture
+      </button>
+    </div>
+  </div>
+  
+  

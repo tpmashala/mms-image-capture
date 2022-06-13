@@ -1,0 +1,5 @@
+<div class="images" *ngFor="let img of images; let i=index">
+    <img [src]="img.capturedPondImage"/>
+    <p><strong>Image number:</strong> {{i+1}}</p>
+<p><strong>Date image captured:</strong> {{ img.capturedTimestamp}}</p>
+</div>
