@@ -31,7 +31,7 @@ export class ImageService {
 
     formData.append('capturedPondImage', payload.capturedPondImage);
     formData.append('capturedTimestamp', payload.capturedTimestamp);
-
+    console.log(formData, 'cccccccccc');
     return this.http
       .post<ImageModel>(`${this.ROOT_URL}/${endpoint}`, formData)
       .pipe(catchError(this.handleError));

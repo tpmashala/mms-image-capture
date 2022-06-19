@@ -1,5 +1,9 @@
-
-<div class="video-container" style="margin-left: 15px;">
+<h3>Image Capture App</h3>
+<hr/>
+<p>This is an image capture app which can be used to capture your pond images.</p>
+<br/><p>It uses your device's camera, so please enable the camera settings to start using it.</p>
+<br/>
+<div class="video-container">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
     <video
@@ -26,15 +30,18 @@
     <p *ngIf="isCaptured">Date image captured: {{dateCaptured}}</p>
 
     <div class="snap-container">
-      <button class="btn btn-primary" *ngIf="!isCaptured" (click)="capture()">
-        Snap Photo
+      <button class="btn btn-info" *ngIf="!isCameraOpened" (click)="openCamera()">
+        Open Camera
+      </button>
+      <button class="btn btn-primary" *ngIf="isCameraOpened && !isCaptured" (click)="capture()">
+        Capture Image
+      </button>
+      <button class="btn btn-danger" style="margin-left: 50px;" *ngIf="isCaptured" (click)="reCaptureImage()">
+        Recapture
       </button>
       <button class="btn btn-success" *ngIf="isCaptured" (click)="saveImage()">
-        Save
-      </button>
-      <button class="btn btn-danger" style="margin-left: 150px;" *ngIf="isCaptured" (click)="reCaptureImage()">
-        ReCapture
-      </button>
+        Save Image
+      </button>      
     </div>
     </div>
   </div>
