@@ -45,8 +45,7 @@ export class CreateImageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openCamera(){
-    this.setupDevices();
-    this.isCameraOpened = true;
+    this.setupDevices();    
   }
 
   async setupDevices() {
@@ -59,6 +58,7 @@ export class CreateImageComponent implements OnInit, AfterViewInit, OnDestroy {
           this.video.nativeElement.srcObject = stream;
           this.video.nativeElement.play();
           this.error = null;
+          this.isCameraOpened = true;
         } else {
           this.error = "You have no output video device";
         }
@@ -109,7 +109,7 @@ export class CreateImageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    (this.video.nativeElement.srcObject).getVideoTracks()[0].stop();
+   // (this.video.nativeElement.srcObject).getVideoTracks()[0].stop();
   }
 
 }
