@@ -1,6 +1,10 @@
 .images{
-    float: left;
-    width: 33.33%;
-    margin-left: 20px;
-    border: 10px;
+    margin-right: 10%;
+    margin-left: 5%;
+    border: 12px;
+    border-color: blue;
+}
+
+img{
+    border-radius: 10%;
 }

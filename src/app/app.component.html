@@ -7,18 +7,20 @@
   
       <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
         <ul class="navbar-nav">
-          <li class="nav-item">
+          <li class="nav-item capture">
             
             <a class="nav-link" routerLink="/capture" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true">Capture Image</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item review">
             <a class="nav-link" routerLink="/review" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true">View Images</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+  <div class="container">
   <router-outlet></router-outlet>
+</div>
 <!--
 <app-create-image></app-create-image>
 

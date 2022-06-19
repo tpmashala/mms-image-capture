@@ -20,16 +20,40 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'mms-image-capture'`, () => {
+  /*it(`should have as title 'MMS image capture'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('mms-image-capture');
   });
 
-  it('should render title', () => {
+  it('should render title in title bar', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('.content span').textContent).toContain('mms-image-capture app is running!');
+  });*/
+
+  /*
+  it('should have app description', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
   });
+
+  it('should contain component navigation router outlet', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });*/
+
+  it('should have navigation bar with menu items', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    const compiled = fixture.nativeElement;
+
+    expect(compiled.querySelector('li.capture')).toBeTruthy();
+    expect(compiled.querySelector('li.review')).toBeTruthy();
+  });
+
+  
 });
