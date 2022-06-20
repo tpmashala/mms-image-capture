@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, 
-  HttpErrorResponse,
-  HttpHeaders,} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, map, retry } from 'rxjs/operators';
 import { ImageModel } from '../model/image-model';
+import { IImageModelService } from '../mocks/image.service.interface';
 
 const endpoint: string = 'api/v1/pondimage';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ImageService {
+export class ImageService implements IImageModelService{
   
   readonly ROOT_URL;
  
@@ -22,16 +21,17 @@ export class ImageService {
   public getAllImages<ImageModel>() {
 
     return this.http
-      .get<ImageModel>(`${this.ROOT_URL}/${endpoint}`)
+      .get<ImageModel[]>(`${this.ROOT_URL}/${endpoint}`)
       .pipe(retry(3), catchError(this.handleError));
   }
 
   public saveImage(payload: ImageModel) {
     const formData = new FormData();
 
-    formData.append('capturedPondImage', payload.capturedPondImage);
+    formData.append('capturedPondImage', payload.capturedPondImage );
     formData.append('capturedTimestamp', payload.capturedTimestamp);
-    console.log(formData, 'cccccccccc');
+    
+    console.log(payload.capturedPondImage);
     return this.http
       .post<ImageModel>(`${this.ROOT_URL}/${endpoint}`, formData)
       .pipe(catchError(this.handleError));

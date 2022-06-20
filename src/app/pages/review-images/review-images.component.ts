@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ImageService } from '../../service/image.service';
 import { ImageModel } from '../../model/image-model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-review-images',
@@ -15,7 +16,7 @@ export class ReviewImagesComponent implements OnInit {
   @ViewChild("canvas")
   public canvas: ElementRef;
 
-  images: ImageModel[];
+  images:Array<any> = [];
   imagePath;
   ngOnInit(): void {
     this.showCapturedImages();
@@ -26,7 +27,15 @@ export class ReviewImagesComponent implements OnInit {
 
   showCapturedImages(){
     this.imageService.getAllImages().subscribe((images: ImageModel[])=>{
-      this.images = images;
+      // = images;
+      let image;
+      images.forEach((im)=>{
+        this.images.push({
+            capturedTimestamp: im.capturedTimestamp,
+            capturedPondImage: "http://localhost:3005/" + im.capturedPondImage
+        });
+        });
+        
     });
   }
 

@@ -9,6 +9,7 @@ import { CreateImageComponent } from './pages/create-image/create-image.componen
 import { ReviewImagesComponent } from './pages/review-images/review-images.component';
 import { ImageService } from './service/image.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     NgbModule
   ],
-  providers: [ImageService],
+  providers: [
+    ...environment.providers
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

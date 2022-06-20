@@ -4,7 +4,7 @@ class ImageSnippet {
   constructor(public src: string, public file: File) {}
 }
 
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ImageService } from 'src/app/service/image.service';
 import { ImageModel } from 'src/app/model/image-model';
@@ -15,7 +15,7 @@ import { ImageModel } from 'src/app/model/image-model';
   styleUrls: ['./create-image.component.css'],
   providers:[DatePipe]
 })
-export class CreateImageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CreateImageComponent implements OnInit, OnDestroy {
 
   selectedFile: ImageSnippet;
 
@@ -79,7 +79,7 @@ export class CreateImageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isCaptured = true;
     this.dateCaptured = this.datePipe.transform(new Date(), 'HH:mm:ss dd-MMM-yyyy');
     this.captured = <ImageModel>{
-                capturedPondImage:this.canvas.nativeElement.toDataURL("image/png"),
+                capturedPondImage:this.dataURItoBlob1(this.canvas.nativeElement.toDataURL("image/png")),                
                 capturedTimestamp:this.dateCaptured
     };
     
@@ -89,10 +89,43 @@ export class CreateImageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onStop();
   }
 
+  toBlb(){
+    new File([this.dataURItoBlob1(this.canvas.nativeElement.toDataURL("image/png"))], "image"+this.dateCaptured)
+    new File([this.dataURItoBlob(this.canvas.nativeElement.toDataURL("image/png"))], this.dateCaptured)
+  }
+
+  dataURItoBlob1(dataURI) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURI.split(',')[1]);
+    else
+        byteString = unescape(dataURI.split(',')[1]);
+    // separate out the mime component
+    let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new File([new Blob([ia], {type:mimeString})], "image",{type:mimeString});
+    }
+
+  dataURItoBlob(dataURI) {
+    const byteString = window.atob(dataURI);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], { type: 'image/png' });    
+    return blob;
+  }
+
   drawImageToCanvas(image: any) {
     this.canvas.nativeElement
       .getContext("2d")
-      .drawImage(image, 0, 0, this.WIDTH, this.HEIGHT);
+      .drawImage(image, 0, 0,this.WIDTH, this.HEIGHT);
   }
 
   reCaptureImage(){
