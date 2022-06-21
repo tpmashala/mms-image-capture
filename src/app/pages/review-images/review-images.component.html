@@ -1,6 +1,6 @@
 <div class="row">
     <div *ngIf="images?.length>0; else noDisplayImages">
-        <h3>Below is the list of images that have been captured:</h3>
+        <p>Below is the list of images that have been captured:</p>
 <div class="images col-xs-12 col-sm-12 col-md-6 col-lg-4 clearfix" *ngFor="let img of images; let i=index">
     <img [src]="img.capturedPondImage"/>
     <p><strong>Image number:</strong> {{i+1}}</p>
