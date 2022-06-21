@@ -1,10 +1,14 @@
-.images{
-    margin-right: 10%;
-    margin-left: 5%;
-    border: 12px;
-    border-color: blue;
-}
+
 
 img{
     border-radius: 10%;
+}
+
+div.row{
+    
+    margin-right: 10px;
+}
+
+p{
+    margin-left: 5px;
 }
