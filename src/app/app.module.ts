@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 
 
@@ -21,7 +22,8 @@ import { environment } from 'src/environments/environment';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    NgbAlertModule
   ],
   providers: [
     ...environment.providers

@@ -1,13 +1,8 @@
-class ImageSnippet {
-  pending: boolean = false;
-  status: string = 'init';
-  constructor(public src: string, public file: File) {}
-}
-
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ImageService } from 'src/app/service/image.service';
 import { ImageModel } from 'src/app/model/image-model';
+import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-image',
@@ -17,18 +12,19 @@ import { ImageModel } from 'src/app/model/image-model';
 })
 export class CreateImageComponent implements OnInit, OnDestroy {
 
-  selectedFile: ImageSnippet;
-
   constructor(private imageService: ImageService, private datePipe: DatePipe) { }
   
   WIDTH = 360;
   HEIGHT = 320;
 
   @ViewChild("video")
-  public video: ElementRef;
+  video: ElementRef;
 
   @ViewChild("canvas")
-  public canvas: ElementRef;
+  canvas: ElementRef;
+
+  @ViewChild('messageAlert', {static: false}) messageAlert: NgbAlert;
+  messageAlertClosed: boolean = true;
 
   captured: ImageModel;
   error: any;
@@ -36,6 +32,9 @@ export class CreateImageComponent implements OnInit, OnDestroy {
   dateCaptured: string;
   saved:boolean = false;
   isCameraOpened:boolean = false;
+
+  isImageSaved:string="";
+  isSuccessfulSaved:boolean;
 
   ngAfterViewInit() {
      
@@ -70,7 +69,7 @@ export class CreateImageComponent implements OnInit, OnDestroy {
 
   onStop() {
     this.video.nativeElement.pause();
-    (this.video.nativeElement.srcObject).getVideoTracks()[0].stop();
+    (this.video.nativeElement.srcObject)?.getVideoTracks()[0].stop();
     this.video.nativeElement.srcObject = null;
   }
 
@@ -79,7 +78,7 @@ export class CreateImageComponent implements OnInit, OnDestroy {
     this.isCaptured = true;
     this.dateCaptured = this.datePipe.transform(new Date(), 'HH:mm:ss dd-MMM-yyyy');
     this.captured = <ImageModel>{
-                capturedPondImage:this.dataURItoBlob1(this.canvas.nativeElement.toDataURL("image/png")),                
+                capturedPondImage:this.dataURItoBlob(this.canvas.nativeElement.toDataURL("image/png")),                
                 capturedTimestamp:this.dateCaptured
     };
     
@@ -89,38 +88,19 @@ export class CreateImageComponent implements OnInit, OnDestroy {
     this.onStop();
   }
 
-  toBlb(){
-    new File([this.dataURItoBlob1(this.canvas.nativeElement.toDataURL("image/png"))], "image"+this.dateCaptured)
-    new File([this.dataURItoBlob(this.canvas.nativeElement.toDataURL("image/png"))], this.dateCaptured)
-  }
-
-  dataURItoBlob1(dataURI) {
-    // convert base64/URLEncoded data component to raw binary data held in a string
-    var byteString;
+  dataURItoBlob(dataURI) {
+    let byteString;
     if (dataURI.split(',')[0].indexOf('base64') >= 0)
         byteString = atob(dataURI.split(',')[1]);
     else
         byteString = unescape(dataURI.split(',')[1]);
-    // separate out the mime component
     let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-    // write the bytes of the string to a typed array
-    var ia = new Uint8Array(byteString.length);
-    for (var i = 0; i < byteString.length; i++) {
+    let ia = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
         ia[i] = byteString.charCodeAt(i);
     }
     return new File([new Blob([ia], {type:mimeString})], "image",{type:mimeString});
     }
-
-  dataURItoBlob(dataURI) {
-    const byteString = window.atob(dataURI);
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const int8Array = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-      int8Array[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([int8Array], { type: 'image/png' });    
-    return blob;
-  }
 
   drawImageToCanvas(image: any) {
     this.canvas.nativeElement
@@ -137,12 +117,18 @@ export class CreateImageComponent implements OnInit, OnDestroy {
 
   saveImage(){
     this.imageService.saveImage(this.captured).subscribe((res)=> {
+      this.isSuccessfulSaved=true;
+      this.isImageSaved = "success";
+    }, e =>{
       
-    })
+      this.isSuccessfulSaved=false;
+      this.isImageSaved = "danger";
+
+    });
   }
 
   ngOnDestroy(): void {
-   // (this.video.nativeElement.srcObject).getVideoTracks()[0].stop();
+    this.onStop();
   }
 
 }

@@ -3,5 +3,9 @@ div.video-container{
 }
 
 .btn-success{
-    margin-left: 120px;
+    margin-right: 20px;
+}
+
+.btn-warning{
+    color: white;
 }

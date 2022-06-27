@@ -1,3 +1,9 @@
+<ngb-alert #selfClosingAlert *ngIf="isImageSaved" [type]="isImageSaved" (closed)="messageAlertClosed = true" >
+  <p *ngIf="isSuccessfulSaved">The image was saved successfully. <br/>
+    You may capture another image or, alternatively, view the list of all captured images.</p>
+     
+    <p *ngIf="!isSuccessfulSaved">There was an error trying to save the image.</p>
+</ngb-alert>
 <h3>Image Capture App</h3>
 <hr/>
 <p>This is an image capture app which can be used to capture your pond images.</p>
@@ -36,12 +42,15 @@
       <button class="btn btn-primary" *ngIf="isCameraOpened && !isCaptured" (click)="capture()">
         Capture Image
       </button>
-      <button class="btn btn-danger" *ngIf="isCaptured" (click)="reCaptureImage()">
-        Recapture
-      </button>
       <button class="btn btn-success" *ngIf="isCaptured" (click)="saveImage()">
         Save Image
-      </button>      
+      </button> 
+      <button class="btn btn-warning" *ngIf="isCaptured" (click)="reCaptureImage()">
+        Recapture
+      </button> 
+      <!--<button class="btn btn-danger" *ngIf="isCameraOpened || isCaptured" (click)="onStop()">
+        Cancel
+      </button> -->   
     </div>
     </div>
   </div>

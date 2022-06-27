@@ -3,6 +3,7 @@ import { ImageService } from '../../service/image.service';
 import { ImageModel } from '../../model/image-model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
+import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-review-images',
